@@ -5,7 +5,7 @@ var TELEGRAM_API_URL = 'https://api.telegram.org/bot' + TELEGRAM_TOKEN;
 // Hàm thiết lập Webhook
 function setWebhook() {
   // Thay thế bằng URL Web App của bạn
-  var webAppUrl = 'https://script.google.com/macros/s/AKfycbzqN9KQQFN_5l6ehcwEnhek2MlDRGHOwzo22fMcfUmkkmld5EFX6jnhkcvStcBNpa6GsA/exec';
+  var webAppUrl = 'https://script.google.com/macros/s/xxxx'
 
   // Gửi yêu cầu thiết lập Webhook
   var payload = {
