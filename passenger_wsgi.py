@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from flask import Flask, jsonify
 
 # --- Cấu hình ---
-CACHE_DURATION_SECONDS = 4 * 60 * 60  # Lưu cache trong 4 tiếng  (4 * 60 * 60)  # 4 giờ
+CACHE_DURATION_SECONDS = 3 * 60 * 60  # Lưu cache trong 3 tiếng  (3 * 60 * 60)  # 3 giờ
 
 # --- Khởi tạo ứng dụng Flask ---
 app = Flask(__name__)
@@ -85,7 +85,36 @@ def api_get_prices():
     else:
         # Trả về lỗi nếu không thể lấy dữ liệu
         return jsonify({"error": "Không thể lấy được dữ liệu giá cà phê."}), 500
+@app.route('/api/v2/coffee-prices', methods=['GET'])
+def api_v2_get_prices():
+    """API V2: Trả về danh sách theo dạng mảng (provinceId, provinceName, price)"""
+    global cached_data
+    current_time = time.time()
 
+    # Dùng cache nếu còn hiệu lực
+    if cached_data["data"] and (current_time - cached_data["timestamp"] < CACHE_DURATION_SECONDS):
+        data = cached_data["data"]
+    else:
+        data = get_coffee_prices()
+        if not data:
+            return jsonify({"error": "Không thể lấy dữ liệu."}), 500
+        cached_data["data"] = data
+        cached_data["timestamp"] = current_time
+
+    mapping = [
+        {"provinceId": 1, "provinceName": "Đắk Lắk", "price": int(data["prices"]["Đắk Lắk"].replace('.', '').replace(',', ''))},
+        {"provinceId": 2, "provinceName": "Lâm Đồng", "price": int(data["prices"]["Lâm Đồng"].replace('.', '').replace(',', ''))},
+        {"provinceId": 3, "provinceName": "Gia Lai", "price": int(data["prices"]["Gia Lai"].replace('.', '').replace(',', ''))},
+        {"provinceId": 4, "provinceName": "Đắk Nông", "price": int(data["prices"]["Đắk Nông"].replace('.', '').replace(',', ''))},
+    ]
+
+    return jsonify({
+        "source": data["source"],
+        "timestamp": data["timestamp"],
+        "date": data["date"],
+        "unit": data["unit"],
+        "prices": mapping
+    })
 # Chạy server
 if __name__ == '__main__':
     # Chạy trên tất cả các địa chỉ IP, port 5000
