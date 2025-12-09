@@ -32,7 +32,7 @@ def get_coffee_prices():
         
         pattern = re.compile(r"::after\s*{\s*content:\s*'([^']+)'")
         values = pattern.findall(all_css_text)
-
+        print(values)
         if len(values) < 4:
             return None # Trả về None nếu không tìm đủ dữ liệu
 
@@ -40,17 +40,17 @@ def get_coffee_prices():
             "source": "giacaphe.com",
             "prices": {
                 "Đắk Lắk": values[0],
-                "Lâm Đồng": values[1],
-                "Gia Lai": values[2],
-                "Đắk Nông": values[3],
+                "Lâm Đồng": values[2],
+                "Gia Lai": values[4],
+                "Đắk Nông": values[6],
             },
             "timestamp": int(time.time()),
             "date": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             "text": "Giá cà phê nội địa \n" + 
             "Đắk Lắk: " + values[0] + "\n" +
-            "Lâm Đồng: " + values[1] + "\n" +
-            "Gia Lai: " + values[2] + "\n" +
-            "Đắk Nông: " + values[3] + "",
+            "Lâm Đồng: " + values[2] + "\n" +
+            "Gia Lai: " + values[4] + "\n" +
+            "Đắk Nông: " + values[6] + "",
             "unit": "VNĐ/kg"
         }
         return data
