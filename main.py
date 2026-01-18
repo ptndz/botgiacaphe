@@ -38,19 +38,19 @@ def get_coffee_prices():
 
         data = {
             "source": "giacaphe.com",
-            "prices": {
-                "Đắk Lắk": values[0],
-                "Lâm Đồng": values[2],
-                "Gia Lai": values[4],
-                "Đắk Nông": values[6],
-            },
+    "prices": {
+        "Đắk Lắk": values[0],
+        "Lâm Đồng": values[1],
+        "Gia Lai": values[3],
+        "Đắk Nông": values[4],
+    },
             "timestamp": int(time.time()),
             "date": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             "text": "Giá cà phê nội địa \n" + 
             "Đắk Lắk: " + values[0] + "\n" +
-            "Lâm Đồng: " + values[2] + "\n" +
-            "Gia Lai: " + values[4] + "\n" +
-            "Đắk Nông: " + values[6] + "",
+            "Lâm Đồng: " + values[1] + "\n" +
+            "Gia Lai: " + values[3] + "\n" +
+            "Đắk Nông: " + values[4] + "",
             "unit": "VNĐ/kg"
         }
         return data
